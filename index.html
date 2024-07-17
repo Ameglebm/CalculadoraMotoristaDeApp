@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kilometrando</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1f1c1c;
+            color: white;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: #333;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            width: 400px;
+            text-align: center;
+        }
+        .container h1 {
+            font-size: 24px;
+        }
+        .container label, .container input, .container button {
+            display: block;
+            margin: 10px 0;
+        }
+        .container input[type="text"] {
+            width: calc(100% - 20px);
+            padding: 5px;
+        }
+        .container button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            
+        }
+        .container button.reset {
+            background-color: #f44336;
+        }
+        .container .result {
+            margin-top: 20px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Kilometrando</h1>
+        <label>Quantos KM você rodou hoje?</label>
+        <input type="text" id="km">
+        <label>Qual o valor das suas corridas 99 ou Uber?</label>
+        <input type="text" id="corrida99">
+        <label>Qual o valor das suas corridas particulares?</label>
+        <input type="text" id="corridaParticular">
+        <label>Qual o valor que foi gasto?</label>
+        <input type="text" id="gastos">
+        <button onclick="calcular()">Calcular</button>
+        <button onclick="resetFields()" class="reset">Resetar</button>
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        function calcular() {
+            let km = parseFloat(document.getElementById('km').value);
+            let corrida99 = parseFloat(document.getElementById('corrida99').value);
+            let corridaParticular = parseFloat(document.getElementById('corridaParticular').value);
+            let gastos = parseFloat(document.getElementById('gastos').value);
+            
+            if (isNaN(km) || isNaN(corrida99) || isNaN(corridaParticular) || isNaN(gastos)) {
+                alert('Por favor, insira valores válidos.');
+                return;
+            }
+
+            let ganhos = corrida99 + corridaParticular;
+            let mediaPorKm = ganhos / km;
+            let totalLiquido = ganhos - gastos;
+
+            document.getElementById('result').innerHTML =
+                `O seu carro rodou ${km.toFixed(2)} kilometros<br>
+                Você faturou R$${ganhos.toFixed(2)}<br>
+                Você gastou R$${gastos.toFixed(2)}<br>
+                Você fez uma média de R$${mediaPorKm.toFixed(2)} por Km<br>
+                Você teve um total líquido de R$${totalLiquido.toFixed(2)}`;
+        }
+
+        function resetFields() {
+            document.getElementById('km').value = '';
+            document.getElementById('corrida99').value = '';
+            document.getElementById('corridaParticular').value = '';
+            document.getElementById('gastos').value = '';
+            document.getElementById('result').innerHTML = '';
+        }
+    </script>
+</body>
+</html>
